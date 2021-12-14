@@ -1,0 +1,56 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /wms
+
+
+spring:
+  datasource:
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///wms?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: root
+
+
+  freemarker:
+    suffix: .ftl
+    content-type: text/html
+    charset: UTF-8
+    template-loader-path: classpath:/views/
+
+
+  ## 热部署配置
+  devtools:
+    restart:
+      enabled: true
+      # 设置重启的目录，添加目录的文件需要restart
+      additional-paths: src/main/java
+      # 解决项目自动重新编译后接口报404的问题
+      poll-interval: 3000
+      quiet-period: 1000
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+
+
+
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: com.yjxxt.wms.bean;com.yjxxt.wms.query;com.yjxxt.wms.dto
+
+  configuration:
+    #    驼峰转换
+    map-underscore-to-camel-case: true
+
+
+pagehelper:
+  helper-dialect: mysql
+
+
+logging:
+  level:
+    com:
+      yjxxt:
+        crm:
+          dao: debug
